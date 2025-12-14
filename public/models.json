@@ -1,0 +1,40 @@
+{
+  "Panadol": {
+    "Panadol Extra": {
+      "label": "Panadol Extra",
+      "model_version": "panadol-extra-v1.0",
+      "feature_description": "Tablet putih, bulat, logo 'GSK' tercetak, kemasan biru-putih",
+      "barcode_pattern": "8991234500000",
+      "classification_threshold": 0.85,
+      "notes": "Model dilatih untuk variasi Panadol Extra Indonesia"
+    },
+    "Panadol Cold & Flu": {
+      "label": "Panadol Cold & Flu",
+      "model_version": "panadol-coldflu-v1.2",
+      "feature_description": "Tablet oval kuning, kemasan bergambar, tekstur matte",
+      "barcode_pattern": "8991234560000",
+      "classification_threshold": 0.87,
+      "notes": "Gunakan model Cold & Flu untuk varian flu"
+    }
+  },
+  "Paracetamol": {
+    "Paracetamol 500mg": {
+      "label": "Paracetamol 500mg",
+      "model_version": "paracetamol-500-v2.0",
+      "feature_description": "Tablet putih, segmen tengah, kemasan merah-putih",
+      "barcode_pattern": "8901234500000",
+      "classification_threshold": 0.80,
+      "notes": "Model umum untuk paracetamol 500mg"
+    }
+  },
+  "Amoxicillin": {
+    "Amoxicillin 500mg": {
+      "label": "Amoxicillin 500mg",
+      "model_version": "amox-500-v1.0",
+      "feature_description": "Kapsul dua warna (hijau-kuning), kemasan blister",
+      "barcode_pattern": "8931234500000",
+      "classification_threshold": 0.88,
+      "notes": "Model khusus kapsul amoxicillin"
+    }
+  }
+}

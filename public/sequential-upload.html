@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unggah Foto Obat — MedVerify AI</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-icon">MV</div>
+        <span>MedVerify AI</span>
+      </div>
+      <nav>
+        <a href="/">Beranda</a>
+        <a href="/scan-medicine.html" class="active">Scan Obat</a>
+        <a href="/about.html">Tentang</a>
+      </nav>
+    </header>
+
+    <main class="upload-main">
+      <div class="upload-container">
+        <!-- Progress Indicator -->
+        <div class="progress-indicator">
+          <ul id="progressList">
+            <li class="photo-step-item">
+              <div class="step-indicator">1</div>
+              <span class="step-name">Depan</span>
+            </li>
+            <li class="photo-step-item">
+              <div class="step-indicator">2</div>
+              <span class="step-name">Belakang</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Main Upload Panel -->
+        <div class="upload-panel" id="uploadSequencePanel">
+          <div class="panel-header">
+            <h2 id="stepTitle">Foto Depan</h2>
+            <p>Langkah <span id="currentStep">1</span> dari 2</p>
+          </div>
+          <p id="stepInstructions" class="instructions">Ambil foto bagian depan kemasan obat dengan jelas...</p>
+          
+          <div class="upload-box">
+            <input type="file" id="photoInput" accept="image/*" style="display: none;">
+            <label for="photoInput" class="upload-label" id="photoLabel">Unggah Foto Depan</label>
+            <img id="previewImg" class="image-preview" src="" alt="Pratinjau Foto">
+          </div>
+
+          <div class="button-group">
+
+            <button id="uploadPhotoBtn" class="btn btn-primary">Unggah & Lanjutkan</button>
+          </div>
+        </div>
+
+        <!-- Completion Panel -->
+        <div class="completion-panel" id="completionPanel" style="display: none;">
+          <div class="panel-header">
+            <h2>Semua Foto Siap</h2>
+            <p>Anda telah menyelesaikan semua langkah. Klik tombol di bawah untuk memulai proses analisis AI.</p>
+          </div>
+          <div class="icon-success">✓</div>
+          <button id="processBtn" class="btn btn-primary btn-large">Mulai Analisis AI</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+    <div class="loading-spinner"></div>
+    <p>Menganalisis gambar... Ini mungkin memakan waktu beberapa saat.</p>
+  </div>
+
+  <script src="sequential-upload.js"></script>
+</body>
+</html>

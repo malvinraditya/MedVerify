@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scan Obat — MedVerify</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-icon">MV</div>
+        <span>MedVerify</span>
+      </div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/scan.html" class="active">Scan Obat</a>
+        <a href="/about.html">Tentang</a>
+      </nav>
+    </header>
+
+    <section class="scan-page">
+      <h1>Scan Obat</h1>
+      <p>Unggah foto yang jelas dan rapi. Maks 5MB per file. Format yang diterima: JPG / PNG / WebP.</p>
+
+      <!-- Sequential Photo Upload Interface -->
+      <div class="card" id="uploadSequencePanel" style="margin-bottom: 20px;">
+        <h3>Langkah <span id="currentStep">1</span> dari 4: <span id="stepTitle">Foto Depan</span></h3>
+        <p id="stepInstructions" style="color: var(--text-secondary); margin-top: 8px;">Ambil foto bagian depan kemasan obat dengan jelas dan fokus. Pastikan seluruh permukaan depan terlihat.</p>
+        
+        <div style="margin-top: 20px; display: flex; gap: 16px;">
+          <!-- Left: Photo Input & Preview -->
+          <div style="flex: 1;">
+            <div class="upload-form">
+              <div class="form-group">
+                <label id="photoLabel">Unggah Foto Depan</label>
+                <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" style="width:100%; padding:10px; border-radius:8px; border:1px solid rgba(30,144,255,0.12);" />
+              </div>
+              <div id="photoPreview" style="margin-top: 12px; max-width: 300px;">
+                <img id="previewImg" src="" alt="Preview" style="display: none; max-width: 100%; border-radius: 8px;" />
+              </div>
+              <div style="margin-top: 16px; display: flex; gap: 8px;">
+                <button id="uploadPhotoBtn" class="btn" style="flex: 1; padding: 12px;">Unggah & Lanjut</button>
+                <button id="skipPhotoBtn" class="btn btn-secondary" style="flex: 1; padding: 12px;">Lewati</button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Right: Progress & Instructions -->
+          <div style="flex: 1;">
+            <div class="instructions-panel">
+              <h3>Progres Pengambilan Foto</h3>
+              <div style="margin-top: 12px;">
+                <div id="progressList">
+                  <div class="photo-step-item"><span class="step-indicator">1</span> Foto Depan</div>
+                  <div class="photo-step-item"><span class="step-indicator">2</span> Foto Belakang</div>
+                  <div class="photo-step-item"><span class="step-indicator">3</span> Foto Kiri</div>
+                  <div class="photo-step-item"><span class="step-indicator">4</span> Foto Kanan</div>
+                </div>
+              </div>
+              <h3 style="margin-top: 20px; font-size: 14px;">Tips Foto Terbaik</h3>
+              <ul style="font-size: 13px; color: var(--text-secondary);">
+                <li>Pencahayaan merata, hindari bayangan</li>
+                <li>Ambil dari jarak yang sama untuk semua sisi</li>
+                <li>Pastikan seluruh teks dan barcode terlihat jelas</li>
+                <li>Format: JPG, PNG, atau WebP (maks 5MB)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Completion Message -->
+      <div class="card" id="completionPanel" style="display: none; margin-bottom: 20px; background: rgba(76, 175, 80, 0.1); border-left: 4px solid var(--color-success);">
+        <h3 style="color: var(--color-success);">✓ Semua Foto Berhasil Diupload</h3>
+        <p style="margin-top: 8px; color: var(--text-secondary);">Sistem akan mulai menganalisis obat Anda menggunakan AI untuk mendeteksi keasliannya...</p>
+        <button id="processBtn" class="btn" style="margin-top: 12px; width: 100%;">Mulai Analisis AI</button>
+      </div>
+    </section>
+
+    <footer class="footer">
+      © 2025 MedVerify
+    </footer>
+  </div>
+
+  <!-- Loading Modal -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loading-box">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">
+        <h3>Sedang menganalisis gambar dan struktur kemasan…</h3>
+        <p>Proses ini biasanya memakan waktu 10–30 detik.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/sequential-upload.js"></script>
+</body>
+</html>

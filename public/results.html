@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hasil Analisis — MedVerify</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-icon">MV</div>
+        <span>MedVerify</span>
+      </div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/scan.html" class="active">Scan Obat</a>
+        <a href="/about.html">Tentang</a>
+      </nav>
+    </header>
+
+    <div id="resultRoot">
+      <!-- Score Section -->
+      <div class="result-score-section">
+        <div class="donut-container">
+          <div class="donut" id="scoreDonut">
+            <div class="donut-label" id="scoreLabel">--</div>
+          </div>
+        </div>
+        <div class="score-info">
+          <h2 id="scoreSummary">Hasil Scan</h2>
+          <p id="scorePenjelasan">Memuat detail analisis...</p>
+        </div>
+      </div>
+
+      <!-- Analysis Sections -->
+      <div class="analysis-section">
+        <h3>Analisis Barcode</h3>
+        <div class="analysis-content" id="analisisBarcode">
+          Memuat...
+        </div>
+      </div>
+
+      <div class="analysis-section">
+        <h3>Analisis Warna</h3>
+        <div class="analysis-content" id="analisisWarna">
+          Memuat...
+        </div>
+      </div>
+
+      <div class="analysis-section">
+        <h3>Analisis Tekstur</h3>
+        <div class="analysis-content" id="analysisTekstur">
+          Memuat...
+        </div>
+      </div>
+
+      <div class="analysis-section">
+        <h3>Konsistensi Sisi-Sisi</h3>
+        <div class="analysis-content" id="analisisKonsistensi">
+          Memuat...
+        </div>
+      </div>
+
+      <div class="analysis-section">
+        <h3>Deteksi Font & Logo</h3>
+        <div class="analysis-content" id="analisisFontLogo">
+          Memuat...
+        </div>
+      </div>
+
+      <!-- Temuan Table -->
+      <div class="temuan-section">
+        <h3>Temuan Detail</h3>
+        <table class="temuan-table">
+          <thead>
+            <tr>
+              <th>Temuan</th>
+              <th>Sisi</th>
+              <th>Severity</th>
+              <th>Confidence</th>
+            </tr>
+          </thead>
+          <tbody id="temuanTableBody">
+            <tr>
+              <td colspan="4" style="text-align: center; color: var(--text-secondary);">Memuat temuan...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Peringatan -->
+      <div class="card" id="peringatanSection" style="display: none; background: #fff3cd; border-left: 4px solid #f0b429;">
+        <strong>⚠️ Peringatan:</strong>
+        <p id="peringatanText"></p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="result-actions">
+        <a href="/scan.html" class="btn">Scan obat lain</a>
+        <button id="downloadBtn" class="btn" style="background: var(--color-secondary);">Download laporan PDF</button>
+        <button id="reportBtn" class="btn" style="background: var(--color-danger);">Laporkan ke BPOM</button>
+      </div>
+    </div>
+
+    <footer class="footer">
+      © 2025 MedVerify. Jika ragu tentang hasil, hubungi BPOM atau penyedia obat.
+    </footer>
+  </div>
+
+  <script src="/results.js"></script>
+</body>
+</html>
+

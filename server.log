@@ -1,0 +1,10 @@
+
+> medguard-ai-prototype@0.1.0 start
+> node server.js
+
+
+🚀 MedGuard AI server running on http://localhost:3000
+   Home: http://localhost:3000/
+   Scan: http://localhost:3000/scan.html
+   Health: http://localhost:3000/health
+

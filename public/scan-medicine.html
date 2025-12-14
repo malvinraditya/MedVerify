@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scan Obat — MedGuard AI</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #f0f5ff 0%, #e8f0ff 100%);
+      color: #0b2545;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      animation: slideDown 0.5s ease-out;
+    }
+
+    .logo {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-weight: 700;
+      font-size: 20px;
+      color: #0b2545;
+    }
+
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1E90FF, #0D6EFD);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(30, 144, 255, 0.3);
+    }
+
+    nav {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+    }
+
+    nav a {
+      color: #27436a;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #1E90FF;
+      transition: width 0.3s;
+    }
+
+    nav a:hover {
+      color: #1E90FF;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .hero h1 {
+      font-size: 36px;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #1E90FF, #0D6EFD);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 16px;
+      color: #27436a;
+      margin-bottom: 8px;
+    }
+
+    .upload-section {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 6px 20px rgba(14, 30, 60, 0.08);
+      margin-bottom: 24px;
+    }
+
+    .upload-area {
+      border: 2px dashed #1E90FF;
+      border-radius: 12px;
+      padding: 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: linear-gradient(135deg, rgba(30, 144, 255, 0.02), rgba(13, 110, 253, 0.02));
+    }
+
+    .upload-area:hover {
+      border-color: #0D6EFD;
+      background: linear-gradient(135deg, rgba(30, 144, 255, 0.05), rgba(13, 110, 253, 0.05));
+    }
+
+    .upload-area.dragover {
+      border-color: #0D6EFD;
+      background: linear-gradient(135deg, rgba(30, 144, 255, 0.1), rgba(13, 110, 253, 0.1));
+      box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+    }
+
+    .upload-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .upload-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #0b2545;
+      margin-bottom: 4px;
+    }
+
+    .upload-desc {
+      font-size: 14px;
+      color: #27436a;
+      margin-bottom: 16px;
+    }
+
+    .upload-hint {
+      font-size: 12px;
+      color: #6b7b94;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #1E90FF, #0D6EFD);
+      color: white;
+      box-shadow: 0 4px 12px rgba(30, 144, 255, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(30, 144, 255, 0.4);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #1E90FF;
+      border: 2px solid #1E90FF;
+    }
+
+    .btn-secondary:hover {
+      background: #1E90FF;
+      color: white;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .preview-item {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f0f5ff;
+      aspect-ratio: 1;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .preview-item .remove-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(229, 83, 83, 0.9);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+
+    .preview-item .remove-btn:hover {
+      background: rgba(229, 83, 83, 1);
+    }
+
+    .file-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+      font-size: 13px;
+    }
+
+    .info-badge {
+      padding: 8px 12px;
+      background: linear-gradient(135deg, rgba(30, 144, 255, 0.1), rgba(13, 110, 253, 0.1));
+      border-radius: 6px;
+      border-left: 3px solid #1E90FF;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: #0b2545;
+    }
+
+    .info-value {
+      color: #27436a;
+    }
+
+    .progress-section {
+      display: none;
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 6px 20px rgba(14, 30, 60, 0.08);
+      margin-bottom: 24px;
+    }
+
+    .progress-section.show {
+      display: block;
+      animation: slideUp 0.4s ease-out;
+    }
+
+    .progress-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f5ff;
+    }
+
+    .progress-item:last-child {
+      border-bottom: none;
+    }
+
+    .progress-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .progress-icon.pending {
+      background: #f0f5ff;
+      color: #6b7b94;
+    }
+
+    .progress-icon.processing {
+      background: linear-gradient(135deg, #1E90FF, #0D6EFD);
+      color: white;
+      animation: spin 1s linear infinite;
+    }
+
+    .progress-icon.done {
+      background: #28A745;
+      color: white;
+    }
+
+    .progress-icon.error {
+      background: #E55353;
+      color: white;
+    }
+
+    .progress-label {
+      flex: 1;
+    }
+
+    .progress-label .name {
+      font-weight: 600;
+      color: #0b2545;
+    }
+
+    .progress-label .status {
+      font-size: 12px;
+      color: #6b7b94;
+      margin-top: 2px;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .result-section {
+      display: none;
+      animation: slideUp 0.4s ease-out;
+    }
+
+    .result-section.show {
+      display: block;
+    }
+
+    .result-card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 6px 20px rgba(14, 30, 60, 0.08);
+      margin-bottom: 24px;
+    }
+
+    .result-banner {
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      border-left: 4px solid;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .result-banner.authentic {
+      background: rgba(40, 167, 69, 0.1);
+      border-color: #28A745;
+    }
+
+    .result-banner.caution {
+      background: rgba(255, 165, 0, 0.1);
+      border-color: #FFA500;
+    }
+
+    .result-banner.fake {
+      background: rgba(229, 83, 83, 0.1);
+      border-color: #E55353;
+    }
+
+    .result-banner-icon {
+      font-size: 24px;
+    }
+
+    .result-banner-text h3 {
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .result-banner-text p {
+      font-size: 13px;
+      color: #27436a;
+    }
+
+    .result-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .result-stat {
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(30, 144, 255, 0.05), rgba(13, 110, 253, 0.05));
+      border-radius: 8px;
+      border-left: 3px solid #1E90FF;
+    }
+
+    .result-stat-label {
+      font-size: 12px;
+      color: #6b7b94;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .result-stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #0b2545;
+    }
+
+    .result-stat-value.percent::after {
+      content: '%';
+      font-size: 14px;
+      margin-left: 2px;
+    }
+
+    .result-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    .result-table thead {
+      background: #f0f5ff;
+    }
+
+    .result-table th {
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+      color: #0b2545;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid #e0e8f0;
+    }
+
+    .result-table td {
+      padding: 12px;
+      border-bottom: 1px solid #e0e8f0;
+      font-size: 13px;
+    }
+
+    .result-table tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    .result-thumbnail {
+      width: 48px;
+      height: 48px;
+      border-radius: 6px;
+      overflow: hidden;
+      object-fit: cover;
+    }
+
+    .similarity-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .similarity-fill {
+      flex: 1;
+      height: 6px;
+      background: #e0e8f0;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .similarity-progress {
+      height: 100%;
+      background: linear-gradient(90deg, #28A745, #FFA500);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    .similarity-text {
+      font-weight: 600;
+      min-width: 45px;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .error-section {
+      display: none;
+      background: rgba(229, 83, 83, 0.1);
+      border: 1px solid rgba(229, 83, 83, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+      animation: slideUp 0.4s ease-out;
+    }
+
+    .error-section.show {
+      display: block;
+    }
+
+    .error-title {
+      color: #E55353;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .error-message {
+      color: #27436a;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .hero h1 {
+        font-size: 24px;
+      }
+
+      .upload-section {
+        padding: 20px;
+      }
+
+      .upload-area {
+        padding: 24px;
+      }
+
+      .preview-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      }
+
+      .result-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .action-buttons .btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-icon">MG</div>
+        <span>MedGuard AI</span>
+      </div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/scan-medicine.html" style="color: #1E90FF; font-weight: 700;">Scan Obat</a>
+        <a href="/about.html">Tentang</a>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <h1>Verifikasi Keaslian Obat</h1>
+      <p>Unggah foto obat Anda untuk verifikasi otomatis menggunakan teknologi embedding</p>
+    </div>
+
+    <!-- Upload Section -->
+    <div class="upload-section">
+      <div class="upload-area" id="uploadArea">
+        <div class="upload-icon">📸</div>
+        <div class="upload-title">Unggah Foto Obat</div>
+        <div class="upload-desc">Drag & drop atau klik untuk memilih file</div>
+        <div class="upload-hint">JPG, PNG, WebP • Maks 10MB per file • Hingga 12 file</div>
+        <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">Pilih File</button>
+        <input type="file" id="fileInput" multiple accept="image/jpeg,image/png,image/webp">
+      </div>
+
+      <div id="previewContainer"></div>
+
+      <div class="file-info">
+        <div class="info-badge">
+          <span class="info-label">File dipilih:</span>
+          <span class="info-value" id="fileCount">0</span>
+        </div>
+        <div class="info-badge">
+          <span class="info-label">Total ukuran:</span>
+          <span class="info-value" id="totalSize">0 MB</span>
+        </div>
+        <div class="info-badge">
+          <span class="info-label">Status:</span>
+          <span class="info-value" id="uploadStatus">Siap</span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 12px; margin-top: 24px;">
+        <button class="btn btn-primary" id="submitBtn" onclick="submitScan()" style="display: none;">
+          Mulai Analisis
+        </button>
+        <button class="btn btn-secondary" id="clearBtn" onclick="clearFiles()" style="display: none;">
+          Bersihkan
+        </button>
+      </div>
+    </div>
+
+    <!-- Error Section -->
+    <div class="error-section" id="errorSection">
+      <div class="error-title" id="errorTitle">Error</div>
+      <div class="error-message" id="errorMessage"></div>
+    </div>
+
+    <!-- Progress Section -->
+    <div class="progress-section" id="progressSection">
+      <h2 style="margin-bottom: 20px; color: #0b2545;">Sedang Memproses...</h2>
+      <div id="progressItems"></div>
+    </div>
+
+    <!-- Result Section -->
+    <div class="result-section" id="resultSection">
+      <div class="result-card">
+        <div id="resultBanner"></div>
+
+        <h2 style="margin-bottom: 20px; color: #0b2545;">Hasil Analisis</h2>
+
+        <div class="result-summary">
+          <div class="result-stat">
+            <div class="result-stat-label">Nama Obat</div>
+            <div class="result-stat-value" id="resultMedicineName">—</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-label">Probabilitas Keaslian</div>
+            <div class="result-stat-value percent" id="resultProbability">0</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-label">Rata-rata Kesamaan</div>
+            <div class="result-stat-value percent" id="resultAverage">0</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-label">Kesamaan Terendah</div>
+            <div class="result-stat-value percent" id="resultMinimum">0</div>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 24px; margin-bottom: 16px; color: #0b2545;">Analisis Per Gambar</h3>
+        <table class="result-table">
+          <thead>
+            <tr>
+              <th>Gambar</th>
+              <th>Sisi Terdekat</th>
+              <th>Kesamaan</th>
+            </tr>
+          </thead>
+          <tbody id="resultTableBody">
+          </tbody>
+        </table>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary" onclick="downloadReport()">Download Laporan</button>
+          <button class="btn btn-secondary" onclick="newScan()">Scan Obat Lain</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================================
+    // CONFIGURATION - Ubah URL backend di sini jika perlu
+    // ============================================================================
+    const API_CONFIG = {
+      EMBEDDING_GENERATE: 'http://localhost:3000/api/embedding/generate',
+      EMBEDDING_COMPARE: 'http://localhost:3000/api/embedding/compare',
+      // Untuk production, ubah localhost:3000 ke domain backend Anda
+      // Contoh: https://api.medguard.com/api/embedding/generate
+    };
+
+    // ============================================================================
+    // STATE MANAGEMENT
+    // ============================================================================
+    let selectedFiles = [];
+    let processedEmbeddings = [];
+
+    // ============================================================================
+    // FILE UPLOAD HANDLING
+    // ============================================================================
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+
+    // Drag and drop
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('dragover');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      handleFiles(e.dataTransfer.files);
+    });
+
+    // File input change
+    fileInput.addEventListener('change', (e) => {
+      handleFiles(e.target.files);
+    });
+
+    function handleFiles(files) {
+      const newFiles = Array.from(files);
+      
+      // Validasi: maximal 12 file
+      if (selectedFiles.length + newFiles.length > 12) {
+        showError('Maksimal 12 file per scan session');
+        return;
+      }
+
+      // Validasi setiap file
+      const validFiles = [];
+      for (const file of newFiles) {
+        // Validasi format
+        if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+          showError(`Format file tidak didukung: ${file.name}. Gunakan JPG, PNG, atau WebP.`);
+          continue;
+        }
+
+        // Validasi ukuran (10MB = 10 * 1024 * 1024 bytes)
+        if (file.size > 10 * 1024 * 1024) {
+          showError(`File terlalu besar: ${file.name} (${(file.size / 1024 / 1024).toFixed(1)}MB). Maksimal 10MB.`);
+          continue;
+        }
+
+        validFiles.push(file);
+      }
+
+      selectedFiles = [...selectedFiles, ...validFiles];
+      updatePreview();
+    }
+
+    function updatePreview() {
+      // Update file info
+      document.getElementById('fileCount').textContent = selectedFiles.length;
+      const totalSize = selectedFiles.reduce((sum, f) => sum + f.size, 0);
+      document.getElementById('totalSize').textContent = (totalSize / 1024 / 1024).toFixed(1);
+      document.getElementById('uploadStatus').textContent = selectedFiles.length > 0 ? 'Siap' : 'Kosong';
+
+      // Tampilkan tombol
+      document.getElementById('submitBtn').style.display = selectedFiles.length > 0 ? 'inline-block' : 'none';
+      document.getElementById('clearBtn').style.display = selectedFiles.length > 0 ? 'inline-block' : 'none';
+
+      // Render preview
+      const container = document.getElementById('previewContainer');
+      container.innerHTML = '';
+
+      if (selectedFiles.length > 0) {
+        const grid = document.createElement('div');
+        grid.className = 'preview-grid';
+
+        selectedFiles.forEach((file, idx) => {
+          const item = document.createElement('div');
+          item.className = 'preview-item';
+
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            item.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+
+          const removeBtn = document.createElement('button');
+          removeBtn.className = 'remove-btn';
+          removeBtn.textContent = '×';
+          removeBtn.onclick = () => {
+            selectedFiles.splice(idx, 1);
+            updatePreview();
+          };
+          item.appendChild(removeBtn);
+
+          grid.appendChild(item);
+        });
+
+        container.appendChild(grid);
+      }
+
+      hideError();
+    }
+
+    function clearFiles() {
+      selectedFiles = [];
+      fileInput.value = '';
+      processedEmbeddings = [];
+      updatePreview();
+    }
+
+    // ============================================================================
+    // SUBMISSION & PROCESSING
+    // ============================================================================
+    async function submitScan() {
+      if (selectedFiles.length === 0) {
+        showError('Silakan pilih minimal satu file');
+        return;
+      }
+
+      // Reset state
+      processedEmbeddings = [];
+      document.getElementById('resultSection').classList.remove('show');
+      hideError();
+
+      // Tampilkan progress
+      document.getElementById('progressSection').classList.add('show');
+      renderProgress();
+
+      try {
+        // Step 1: Generate embedding untuk setiap file
+        for (let i = 0; i < selectedFiles.length; i++) {
+          const file = selectedFiles[i];
+          const result = await generateEmbedding(file, i);
+          if (result) {
+            processedEmbeddings.push(result);
+            updateProgressItem(i, 'done', 'Embedding siap');
+          } else {
+            updateProgressItem(i, 'error', 'Gagal generate embedding');
+          }
+        }
+
+        if (processedEmbeddings.length === 0) {
+          throw new Error('Tidak ada embedding yang berhasil diproses');
+        }
+
+        // Step 2: Compare embeddings
+        updateProgressLabel('Membandingkan dengan database...');
+        const comparisonResult = await compareEmbeddings();
+
+        if (!comparisonResult) {
+          throw new Error('Gagal membandingkan embeddings');
+        }
+
+        // Step 3: Display result
+        document.getElementById('progressSection').classList.remove('show');
+        displayResult(comparisonResult);
+      } catch (err) {
+        document.getElementById('progressSection').classList.remove('show');
+        showError(`Kesalahan saat memproses: ${err.message}`);
+        console.error(err);
+      }
+    }
+
+    async function generateEmbedding(file, index) {
+      try {
+        updateProgressItem(index, 'processing', 'Generate embedding...');
+
+        // Convert file to base64
+        const base64 = await fileToBase64(file);
+
+        // Call backend API
+        const response = await fetch(API_CONFIG.EMBEDDING_GENERATE, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            image: base64,
+            filename: file.name,
+            filesize: file.size
+          })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || `HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        return {
+          image_id: data.image_id || `img_${index}_${Date.now()}`,
+          embedding: data.embedding,
+          filename: file.name,
+          file: file
+        };
+      } catch (err) {
+        console.error(`Error generating embedding for file ${index}:`, err);
+        showError(`Gagal memproses ${file.name}: ${err.message}`);
+        return null;
+      }
+    }
+
+    async function compareEmbeddings() {
+      try {
+        const payload = {
+          user_embeddings: processedEmbeddings.map(e => ({
+            image_id: e.image_id,
+            embedding: e.embedding
+          }))
+        };
+
+        const response = await fetch(API_CONFIG.EMBEDDING_COMPARE, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || `HTTP ${response.status}`);
+        }
+
+        return await response.json();
+      } catch (err) {
+        console.error('Error comparing embeddings:', err);
+        showError(`Gagal membandingkan embeddings: ${err.message}`);
+        return null;
+      }
+    }
+
+    // ============================================================================
+    // RESULT DISPLAY
+    // ============================================================================
+    function displayResult(data) {
+      const {
+        identified_medicine_id = 'Unknown',
+        identified_name = 'Unknown',
+        similarity_per_image = [],
+        average_similarity = 0,
+        min_similarity = 0,
+        authenticity_probability = 0
+      } = data;
+
+      // Determine classification
+      let classification, bannerClass, icon;
+      if (authenticity_probability >= 0.90) {
+        classification = 'Sangat Mungkin Asli';
+        bannerClass = 'authentic';
+        icon = '✓';
+      } else if (authenticity_probability >= 0.70) {
+        classification = 'Mungkin Asli — Cek batch/barcode';
+        bannerClass = 'caution';
+        icon = '⚠';
+      } else {
+        classification = 'Mencurigakan — Kemungkinan Palsu';
+        bannerClass = 'fake';
+        icon = '✕';
+      }
+
+      // Render banner
+      const banner = document.getElementById('resultBanner');
+      banner.className = `result-banner ${bannerClass}`;
+      banner.innerHTML = `
+        <div class="result-banner-icon">${icon}</div>
+        <div class="result-banner-text">
+          <h3>${classification}</h3>
+          <p>Probabilitas keaslian: ${(authenticity_probability * 100).toFixed(1)}%</p>
+        </div>
+      `;
+
+      // Update stats
+      document.getElementById('resultMedicineName').textContent = identified_name;
+      document.getElementById('resultProbability').textContent = Math.round(authenticity_probability * 100);
+      document.getElementById('resultAverage').textContent = Math.round(average_similarity * 100);
+      document.getElementById('resultMinimum').textContent = Math.round(min_similarity * 100);
+
+      // Render table
+      const tbody = document.getElementById('resultTableBody');
+      tbody.innerHTML = '';
+
+      const imageMap = {};
+      processedEmbeddings.forEach((e, idx) => {
+        imageMap[e.image_id] = e;
+      });
+
+      similarity_per_image.forEach((item, idx) => {
+        const embeddingData = imageMap[item.image_id];
+        if (!embeddingData) return;
+
+        const row = document.createElement('tr');
+        const similarity = Math.round((item.similarity || 0) * 100);
+        const fillPercent = similarity;
+
+        // Render thumbnail dari file
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(embeddingData.file);
+        img.className = 'result-thumbnail';
+
+        const thumbCell = document.createElement('td');
+        thumbCell.appendChild(img);
+
+        const sideCell = document.createElement('td');
+        sideCell.textContent = item.closest_side || '—';
+
+        const similarityCell = document.createElement('td');
+        similarityCell.innerHTML = `
+          <div class="similarity-bar">
+            <div class="similarity-fill">
+              <div class="similarity-progress" style="width: ${fillPercent}%"></div>
+            </div>
+            <div class="similarity-text">${similarity}%</div>
+          </div>
+        `;
+
+        row.appendChild(thumbCell);
+        row.appendChild(sideCell);
+        row.appendChild(similarityCell);
+        tbody.appendChild(row);
+      });
+
+      // Show result
+      document.getElementById('resultSection').classList.add('show');
+    }
+
+    // ============================================================================
+    // PROGRESS UI
+    // ============================================================================
+    function renderProgress() {
+      const container = document.getElementById('progressItems');
+      container.innerHTML = '';
+
+      selectedFiles.forEach((file, idx) => {
+        const item = document.createElement('div');
+        item.className = 'progress-item';
+        item.id = `progress-${idx}`;
+        item.innerHTML = `
+          <div class="progress-icon pending">
+            <span class="progress-status">${idx + 1}</span>
+          </div>
+          <div class="progress-label">
+            <div class="name">${file.name}</div>
+            <div class="status">Menunggu...</div>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function updateProgressItem(index, status, statusText) {
+      const item = document.getElementById(`progress-${index}`);
+      if (!item) return;
+
+      const icon = item.querySelector('.progress-icon');
+      const statusSpan = item.querySelector('.progress-status');
+      const statusLabel = item.querySelector('.status');
+
+      icon.className = `progress-icon ${status}`;
+      statusSpan.textContent = status === 'done' ? '✓' : (status === 'error' ? '✕' : (index + 1));
+      statusLabel.textContent = statusText;
+    }
+
+    function updateProgressLabel(text) {
+      const container = document.getElementById('progressItems');
+      const lastItem = container.querySelector('.progress-item:last-child');
+      if (lastItem) {
+        const statusLabel = lastItem.querySelector('.status');
+        if (statusLabel) statusLabel.textContent = text;
+      }
+    }
+
+    // ============================================================================
+    // ERROR HANDLING
+    // ============================================================================
+    function showError(message) {
+      const errorSection = document.getElementById('errorSection');
+      document.getElementById('errorTitle').textContent = 'Kesalahan';
+      document.getElementById('errorMessage').textContent = message;
+      errorSection.classList.add('show');
+    }
+
+    function hideError() {
+      document.getElementById('errorSection').classList.remove('show');
+    }
+
+    // ============================================================================
+    // UTILITY FUNCTIONS
+    // ============================================================================
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64String = reader.result.split(',')[1];
+          resolve(base64String);
+        };
+        reader.onerror = reject;
+      });
+    }
+
+    function downloadReport() {
+      const medicineName = document.getElementById('resultMedicineName').textContent;
+      const probability = document.getElementById('resultProbability').textContent;
+      const report = `
+LAPORAN ANALISIS KEASLIAN OBAT
+==============================
+Tanggal: ${new Date().toLocaleString('id-ID')}
+Nama Obat: ${medicineName}
+Probabilitas Keaslian: ${probability}%
+
+Generated by MedGuard AI
+      `;
+
+      const blob = new Blob([report], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `laporan-${Date.now()}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function newScan() {
+      clearFiles();
+      document.getElementById('resultSection').classList.remove('show');
+      document.getElementById('progressSection').classList.remove('show');
+      fileInput.value = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

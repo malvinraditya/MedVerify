@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tentang — MedVerify</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-icon">MV</div>
+        <span>MedVerify</span>
+      </div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/scan.html">Scan Obat</a>
+        <a href="/about.html" class="active">Tentang</a>
+      </nav>
+    </header>
+
+    <section class="card">
+      <h1>Tentang MedVerify</h1>
+      <p>Misi kami: membantu masyarakat mengenali obat palsu dengan teknologi AI yang transparan dan dapat dijelaskan.</p>
+
+      <h2 style="margin-top: 28px;">Bagaimana Sistem Bekerja</h2>
+      <ol style="line-height: 1.8; font-size: 15px;">
+        <li><strong>OCR dan Validasi Barcode</strong> — Pembacaan otomatis barcode dan validasi format GS1 untuk memastikan nomor produk terdaftar.</li>
+        <li><strong>Analisis Visual Multi-Angle</strong> — Membandingkan foto dari 4 sisi untuk menemukan ketidakkonsistenan warna, cetak, dan logo.</li>
+        <li><strong>Forensik Digital & Perbandingan Referensi</strong> — Deteksi manipulasi digital, perbedaan tekstur, dan perbandingan dengan data produk asli.</li>
+        <li><strong>Skor Keaslian & Laporan</strong> — Menghasilkan persentase keaslian yang dapat dijelaskan dan laporan PDF terperinci.</li>
+      </ol>
+
+      <h2 style="margin-top: 28px;">Teknologi</h2>
+      <p>
+        MedVerify menggabungkan:
+      </p>
+      <ul>
+        <li><strong>OCR (Optical Character Recognition)</strong> — untuk membaca barcode dan teks pada kemasan.</li>
+        <li><strong>Computer Vision</strong> — untuk analisis warna, tekstur, logo, dan perubahan fisik pada kemasan.</li>
+        <li><strong>Model Forensik Digital</strong> — untuk deteksi manipulasi dan tanda-tanda produksi palsu.</li>
+        <li><strong>Pipeline Scoring Explainable</strong> — menghasilkan skor yang dapat dijelaskan dengan detail per fitur.</li>
+      </ul>
+
+      <h2 style="margin-top: 28px;">Kelebihan vs. Aplikasi Lain</h2>
+      <ul>
+        <li>Analisis multi-angle (4 sisi) untuk konsistensi maksimal.</li>
+        <li>Scoring explainable — setiap temuan dijelaskan dan diberi confidence score.</li>
+        <li>Database resmi BPOM — validasi nomor barcode terhadap sumber resmi.</li>
+        <li>Deteksi forensik — mengidentifikasi manipulasi dan produksi di luar standar.</li>
+      </ul>
+
+      <h2 style="margin-top: 28px;">Privacy & Data Retention</h2>
+      <p>
+        Foto yang Anda unggah disimpan sementara untuk analisis. Data akan dihapus secara otomatis sesuai kebijakan retensi kami (30 hari default). Anda dapat meminta penghapusan manual melalui pengaturan akun.
+      </p>
+
+      <h2 style="margin-top: 28px;">FAQ</h2>
+      <h3 style="font-size: 15px; margin-top: 16px;">Apakah MedVerify menggantikan BPOM?</h3>
+        <p>Tidak. MedVerify adalah alat bantu verifikasi. Untuk keputusan regulator tetap mengacu pada BPOM.</p>      <h3 style="font-size: 15px; margin-top: 16px;">Berapa cepat hasilnya?</h3>
+      <p>Biasanya 10–30 detik tergantung ukuran antrian dan koneksi internet Anda.</p>
+
+      <h3 style="font-size: 15px; margin-top: 16px;">Apakah foto saya disimpan?</h3>
+      <p>Foto disimpan sementara untuk analisis. Anda dapat meminta penghapusan melalui pengaturan akun atau hubungi kami.</p>
+
+      <h3 style="font-size: 15px; margin-top: 16px;">Akurasi berapa persen?</h3>
+      <p>Model kami dilatih dengan tingkat akurasi >90% pada dataset validasi. Namun, hasil tergantung kualitas foto yang diunggah.</p>
+
+      <h2 style="margin-top: 28px;">Kontak & Dukungan</h2>
+      <p>Untuk pertanyaan atau masalah, silakan hubungi: <strong>support@medguard.ai</strong></p>
+    </section>
+
+    <footer class="footer">
+      © 2025 MedVerify. Semua hak dilindungi.
+    </footer>
+  </div>
+</body>
+</html>
